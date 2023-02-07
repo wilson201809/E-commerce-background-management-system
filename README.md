@@ -1,4 +1,4 @@
-# shop_manage_sys
+# 电商后台管理系统
 
 ## Project setup
 ```
