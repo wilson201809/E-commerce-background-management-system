@@ -19,7 +19,7 @@
 
       <!-- 表格 -->
       <tree-table
-        class="treeTable"
+        class="treetable"
         :data="catelist"
         :columns="columns"
         :selection-type="false"
@@ -292,7 +292,7 @@ export default {
     // 点击按钮, 添加新的分类
     addCate() {
       console.log(this.addCateForm)
-      this.$refs.addCateFormRef.validate(async (valid) => {
+      this.$refs.addCateFormRef.validate(async valid => {
         if (!valid) return
         const { data: res } = await this.$http.post(
           'categories',
@@ -325,6 +325,16 @@ export default {
 
       this.editCateDialogVisbel = true
     },
+    // 编辑商品分类信息 
+    async editCateInfo() {
+        const {data: res } = await this.$http.put('categories/' + this.editCate.cat_id, { cat_name: this.editCate.cat_name })
+        if (res.meta.status !== 200) {
+            return this.$message.error('更新分类数据失败!')
+        }
+        this.$message.success('更新分类数据成功!')
+        this.getCateList()
+        this.editCateDialogVisbel = false
+    },
     // 删除分类
     async removeCate(id) {
         const confirRustle = await this.$confirm('此操作将永久删除该文件, 是否继续?', '删除分类', {
@@ -344,22 +354,12 @@ export default {
         this.$message.success('该分类已成功删除!')
         this.getCateList()
     },
-    // 编辑商品分类信息 
-    async editCateInfo() {
-        const {data: res } = await this.$http.put('categories/' + this.editCate.cat_id, { cat_name: this.editCate.cat_name })
-        if (res.meta.status !== 200) {
-            return this.$message.error('更新分类数据失败!')
-        }
-        this.$message.success('更新分类数据成功!')
-        this.getCateList()
-        this.editCateDialogVisbel = false
-    }
   },
 }
 </script>
 
 <style lang="less" scoped>
-.treeTable {
+.treetable {
   margin-top: 15px;
 }
 
